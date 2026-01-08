@@ -1,0 +1,154 @@
+/* Общие стили */
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Заголовок страницы */
+.Header {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Обертка ввода и кнопки */
+.InputTask {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+/* Поле ввода */
+.InputTask input {
+  flex: 1;
+  padding: 14px 20px;
+  font-size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.TaskEdit  {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+  margin: 15px;
+}
+
+.InputTask input:focus {
+  border-color: #4A90E2;
+}
+
+/* Кнопка добавления задачи */
+.InputTask button {
+  padding: 14px 24px;
+  background-color: #4A90E2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.InputTask button:hover {
+  background-color: #357ABD;
+  transform: translateY(-2px);
+}
+
+/* Список задач */
+.ToDoList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  gap: 15px;
+}
+
+/* Каждая задача */
+.Task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.Task:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+/* Текст задачи */
+.Task p {
+  flex: 1;
+  margin: 0 15px;
+  font-size: 1.1rem;
+  transition: color 0.3s, text-decoration 0.3s;
+}
+
+.Task p.active {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* Чекбокс */
+.Task input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+
+/* Кнопки внутри задачи */
+.Task button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  margin-left: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.Task button:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* Мобильная версия */
+@media (max-width: 600px) {
+  .InputTask {
+    flex-direction: column;
+  }
+  .InputTask input, .InputTask button {
+    width: 100%;
+  }
+  .Task {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .Task p {
+    margin: 10px 0;
+  }
+  .Task button {
+    align-self: stretch;
+  }
+}
