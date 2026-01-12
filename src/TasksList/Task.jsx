@@ -4,7 +4,7 @@ import { useState } from "react";
 import TaskEdit from "./TaskEdit";
 
 const Task = ({ task }) => {
-  const { tasks, setTasks } = useContext(TasksContext);
+  const { setTasks } = useContext(TasksContext);
 
   const [isEditing, setIsEditing] = useState(false);
 

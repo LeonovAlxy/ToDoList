@@ -2,15 +2,16 @@
 body {
   margin: 0;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.error{ color: red;
-margin: 20px;}
-
+.error {
+  color: red;
+  margin: 20px;
+}
 
 /* Заголовок страницы */
 .Header {
@@ -31,7 +32,64 @@ margin: 20px;}
   gap: 10px;
   margin-bottom: 30px;
 }
-
+.Sort {
+  width: fit-content;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.Sort:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+.FilterMain {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  gap: 10px;
+  margin-top: 30px;
+}
+.FilterMain button {
+  flex: 1; /* каждая кнопка растянется равномерно */
+  min-width: 0;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  height: fit-content;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* чтобы не было ограничений при сжатии */
+}
+.FilterMain button:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+}
+.ActiveCounter {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+.ActiveCounter button {
+  min-width: 0;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-top: 10px;
+  height: fit-content;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.ActiveCounter button:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+}
 /* Поле ввода */
 .InputTask input {
   flex: 1;
@@ -42,7 +100,7 @@ margin: 20px;}
   outline: none;
   transition: border-color 0.3s;
 }
-.TaskEdit  {
+.TaskEdit {
   flex: 1;
   padding: 10px 15px;
   font-size: 1.2rem;
@@ -54,13 +112,13 @@ margin: 20px;}
 }
 
 .InputTask input:focus {
-  border-color: #4A90E2;
+  border-color: #4a90e2;
 }
 
 /* Кнопка добавления задачи */
 .InputTask button {
   padding: 14px 24px;
-  background-color: #4A90E2;
+  background-color: #4a90e2;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -70,7 +128,7 @@ margin: 20px;}
 }
 
 .InputTask button:hover {
-  background-color: #357ABD;
+  background-color: #357abd;
   transform: translateY(-2px);
 }
 
@@ -91,12 +149,12 @@ margin: 20px;}
   background-color: #fff;
   padding: 15px 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s, transform 0.2s;
 }
 
 .Task:hover {
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
@@ -114,7 +172,7 @@ margin: 20px;}
 }
 
 /* Чекбокс */
-.Task input[type='checkbox'] {
+.Task input[type="checkbox"] {
   width: 20px;
   height: 20px;
 }
@@ -141,7 +199,8 @@ margin: 20px;}
   .InputTask {
     flex-direction: column;
   }
-  .InputTask input, .InputTask button {
+  .InputTask input,
+  .InputTask button {
     width: 100%;
   }
   .Task {
