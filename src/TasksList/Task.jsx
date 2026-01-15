@@ -1,11 +1,7 @@
-import { useContext } from "react";
-import { TasksContext } from "../TasksContext";
 import { useState } from "react";
 import TaskEdit from "./TaskEdit";
 
-const Task = ({ task }) => {
-  const { setTasks } = useContext(TasksContext);
-
+const Task = ({ task, setTasks }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleDeleteClick = (id) => {

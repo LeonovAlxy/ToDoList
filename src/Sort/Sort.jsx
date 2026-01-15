@@ -1,8 +1,4 @@
-import { useContext } from "react";
-import { TasksContext } from "../TasksContext";
-
-const Sort = () => {
-  const { tasks, setTasks } = useContext(TasksContext);
+const Sort = ({ tasks, setTasks }) => {
   const hendleClick = () => {
     setTasks((tasks) => [...tasks].reverse());
     console.log(tasks);

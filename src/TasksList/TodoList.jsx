@@ -1,10 +1,7 @@
-import { useContext } from "react";
-import { TasksContext } from "../TasksContext";
 import Task from "./Task";
 import Sort from "../Sort/Sort";
 
-const ToDoList = () => {
-  const { tasks, filter } = useContext(TasksContext);
+const ToDoList = ({ filter, tasks, setTasks }) => {
   const filteredTasks = tasks.filter((task) => {
     if (filter === "all") return true;
     if (filter === "active") return !task.isDone;
@@ -13,9 +10,9 @@ const ToDoList = () => {
   });
   return (
     <div className="ToDoList">
-      <Sort />
+      <Sort tasks={tasks} setTasks={setTasks} />
       {filteredTasks.map((item) => (
-        <Task key={item.id} task={item} />
+        <Task key={item.id} task={item} setTasks={setTasks} />
       ))}
     </div>
   );

@@ -1,8 +1,4 @@
-import { useContext } from "react";
-import { TasksContext } from "../TasksContext";
-
-const ActiveCounter = () => {
-  const { tasks, setTasks } = useContext(TasksContext);
+const ActiveCounter = ({ tasks, setTasks }) => {
   const activeTasks = tasks.filter((item) => !item.isDone);
   return (
     <div className="ActiveCounter">

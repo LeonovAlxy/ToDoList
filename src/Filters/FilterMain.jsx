@@ -1,7 +1,4 @@
-import { useContext } from "react";
-import { TasksContext } from "../TasksContext";
-const Filter = () => {
-  const { setFilter } = useContext(TasksContext);
+const Filter = ({ setFilter }) => {
   return (
     <div className="FilterMain">
       <button onClick={() => setFilter("all")}>All</button>
