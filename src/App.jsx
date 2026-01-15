@@ -17,5 +17,20 @@ function App() {
     </TasksProvider>
   );
 }
+// src/
+// ├── App.js
+// ├── Header/
+// │   └── Header.js
+// ├── InputTasks/
+// │   └── InputTask.js
+// ├── TasksList/
+// │   ├── ToDoList.js
+// │   └── Task.js
+// │   └── TaskEdit.js
+// ├── Filters/
+// │   ├── Filter.js
+// │   └── ActiveCounter.js
+// ├── Sort/
+//   └── Sort.js
 
 export default App;

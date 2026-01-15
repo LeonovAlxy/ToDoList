@@ -7,8 +7,24 @@ const InputTask = () => {
 
   const handleChange = (e) => {
     setText(e.target.value);
+    setError("");
   };
-
+  const handleKeyDown = (e) => {
+    if (text.trim() === "") {
+      setError("Название не может быть пустым или состоять только из пробелов");
+    } else if (e.key === "Enter") {
+      setTasks((tasks) => [
+        ...tasks,
+        {
+          id: crypto.randomUUID(),
+          title: text,
+          isDone: false,
+        },
+      ]);
+      setError("");
+      setText("");
+    }
+  };
   const handleClick = () => {
     if (text.trim() === "") {
       setError("Название не может быть пустым или состоять только из пробелов");
@@ -33,11 +49,12 @@ const InputTask = () => {
         <input
           value={text}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           placeholder="Create task"
           style={{
             borderColor: error ? "red" : undefined,
           }}
-        ></input>
+        />
         <button onClick={handleClick}>Add Task</button>
       </div>
       {error && <div className="error">{error}</div>}
