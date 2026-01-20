@@ -13,6 +13,7 @@ const TaskEdit = ({ initialTitle, onSave, onCancel }) => {
 
   const handleChange = (e) => {
     setEditTitle(e.target.value);
+    setError("");
   };
 
   const handleKeyDown = (e) => {
@@ -36,7 +37,8 @@ const TaskEdit = ({ initialTitle, onSave, onCancel }) => {
         className="TaskEdit"
         ref={inputRef}
         type="text"
-        value={error ? error : editTitle}
+        value={editTitle}
+        placeholder={error ? error : ""}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onBlur={handleBlur}

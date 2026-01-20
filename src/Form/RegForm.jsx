@@ -5,9 +5,9 @@ import Login from "./Login";
 const RegForm = ({ token, setToken }) => {
   const [RegComp, setRegComp] = useState();
   return (
-    <>
+    <div className="Initial">
       {!RegComp && (
-        <div>
+        <div className="AuthFormButtons">
           <button
             onClick={() =>
               setRegComp(<Registration token={token} setToken={setToken} />)
@@ -25,7 +25,7 @@ const RegForm = ({ token, setToken }) => {
         </div>
       )}
       {RegComp}
-    </>
+    </div>
   );
 };
 export default RegForm;

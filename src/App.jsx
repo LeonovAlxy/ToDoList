@@ -5,12 +5,12 @@ import "./App.css";
 import RegForm from "./Form/RegForm";
 
 function App() {
-  const [token, setToken] = useState("token");
+  const [token, setToken] = useState("");
   return (
     <>
       <Header />
-      <RegForm token={token} setToken={setToken} />
-      {token && <ToDoListMain />}
+      {!token && <RegForm token={token} setToken={setToken} />}
+      {token && <ToDoListMain token={token} />}
     </>
   );
 }

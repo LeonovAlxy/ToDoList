@@ -1,48 +1,57 @@
 import { useState } from "react";
+import axios from "axios";
+
 const InputTask = ({ setTasks }) => {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const token = localStorage.getItem("token");
   const handleChange = (e) => {
     setText(e.target.value);
     setError("");
   };
-  const handleKeyDown = (e) => {
+
+  const handleAddTask = async () => {
     if (text.trim() === "") {
       setError("Название не может быть пустым или состоять только из пробелов");
-    } else if (e.key === "Enter") {
-      setTasks((tasks) => [
-        ...tasks,
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "https://todo-redev.herokuapp.com/api/todos",
+        { title: text },
         {
-          id: crypto.randomUUID(),
-          title: text,
-          isDone: false,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      ]);
-      setError("");
+      );
+      const newTask = response.data;
+      setTasks((prevTasks) => [...prevTasks, newTask]);
       setText("");
+      setError("");
+      setLoading(false);
+    } catch (error) {
+      setError("Ошибка при добавлении задачи");
+      console.error(error);
     }
   };
-  const handleClick = () => {
-    if (text.trim() === "") {
-      setError("Название не может быть пустым или состоять только из пробелов");
-    } else {
-      setTasks((tasks) => [
-        ...tasks,
-        {
-          id: crypto.randomUUID(),
-          title: text,
-          isDone: false,
-        },
-      ]);
-      setError("");
-      setText("");
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddTask();
     }
+  };
+
+  const handleClick = () => {
+    handleAddTask();
   };
 
   return (
     <>
-      {" "}
       <div className="InputTask">
         <input
           value={text}
@@ -53,10 +62,15 @@ const InputTask = ({ setTasks }) => {
             borderColor: error ? "red" : undefined,
           }}
         />
-        <button onClick={handleClick}>Add Task</button>
+        {!loading ? (
+          <button onClick={handleClick}>Add Task</button>
+        ) : (
+          <span class="loader"></span>
+        )}
       </div>
       {error && <div className="error">{error}</div>}
     </>
   );
 };
+
 export default InputTask;

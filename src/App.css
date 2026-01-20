@@ -23,7 +23,192 @@ body {
   justify-content: center;
   align-items: center;
 }
+.loader {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  color: #6ebeff;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite alternate;
+}
 
+@keyframes animloader {
+  0% {
+    box-shadow:
+      -38px -12px,
+      -14px 0,
+      14px 0,
+      38px 0;
+  }
+  33% {
+    box-shadow:
+      -38px 0px,
+      -14px -12px,
+      14px 0,
+      38px 0;
+  }
+  66% {
+    box-shadow:
+      -38px 0px,
+      -14px 0,
+      14px -12px,
+      38px 0;
+  }
+  100% {
+    box-shadow:
+      -38px 0,
+      -14px 0,
+      14px 0,
+      38px -12px;
+  }
+}
+.FormError {
+  color: red;
+}
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  font-family: "Arial", sans-serif;
+}
+
+.AuthForm form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Метки и поля ввода */
+.AuthForm label {
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+}
+
+.AuthForm input[type="text"],
+.AuthForm input[type="email"],
+.AuthForm input[type="password"],
+.AuthForm input[type="number"],
+.AuthForm select {
+  margin-top: 8px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+  font-family: "Arial", sans-serif;
+}
+
+.AuthForm input[type="text"]:focus,
+.AuthForm input[type="email"]:focus,
+.AuthForm input[type="password"]:focus,
+.AuthForm select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
+}
+
+/* Стиль для ошибок */
+.FormError p {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Кнопка отправки */
+.AuthForm input[type="submit"] {
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4a90e2;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
+}
+
+.AuthForm input[type="submit"]:disabled {
+  background-color: #a0c4e8;
+  cursor: not-allowed;
+}
+
+.AuthForm input[type="submit"]:hover:enabled {
+  background-color: #357abd;
+  transform: translateY(-2px);
+}
+
+/* Стиль для блока Initial */
+.Initial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  font-family: "Arial", sans-serif;
+  color: #2c3e50;
+}
+
+/* Стиль для блока кнопок внутри блока Initial */
+.AuthFormButtons {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Расстояние между кнопками */
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* Кнопки или ссылки внутри AuthFormButtons */
+.AuthFormButtons button,
+.AuthFormButtons a {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4a90e2;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
+}
+
+.AuthFormButtons button:hover,
+.AuthFormButtons a:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+}
+
+.AuthFormButtons a {
+  display: inline-block;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 500px) {
+  .AuthForm {
+    padding: 15px;
+  }
+  .AuthFormButtons {
+    gap: 10px;
+  }
+}
 /* Обертка ввода и кнопки */
 .InputTask {
   display: flex;
@@ -38,7 +223,9 @@ body {
   border: none;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.2s, transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 }
 .Sort:hover {
   background-color: #f0f0f0;
@@ -61,7 +248,9 @@ body {
   font-size: 1rem;
   height: fit-content;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* чтобы не было ограничений при сжатии */
+  transition:
+    background-color 0.3s,
+    transform 0.2s; /* чтобы не было ограничений при сжатии */
 }
 .FilterMain button:hover {
   background-color: #357abd;
@@ -84,7 +273,9 @@ body {
   margin-top: 10px;
   height: fit-content;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 .ActiveCounter button:hover {
   background-color: #357abd;
@@ -124,7 +315,9 @@ body {
   border-radius: 8px;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 
 .InputTask button:hover {
@@ -150,7 +343,9 @@ body {
   padding: 15px 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s, transform 0.2s;
+  transition:
+    box-shadow 0.3s,
+    transform 0.2s;
 }
 
 .Task:hover {
@@ -163,7 +358,9 @@ body {
   flex: 1;
   margin: 0 15px;
   font-size: 1.1rem;
-  transition: color 0.3s, text-decoration 0.3s;
+  transition:
+    color 0.3s,
+    text-decoration 0.3s;
 }
 
 .Task p.active {
@@ -186,7 +383,9 @@ body {
   padding: 8px 12px;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.2s, transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 }
 
 .Task button:hover {
