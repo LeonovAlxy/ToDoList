@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TaskEdit from "./TaskEdit";
-import axios from "axios";
+import api from "../../api";
 
 const Task = ({ task, setTasks }) => {
   const token = localStorage.getItem("token");
@@ -9,39 +9,31 @@ const Task = ({ task, setTasks }) => {
   const handleDeleteClick = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`https://todo-redev.herokuapp.com/api/todos/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await api.delete(`/todos/${id}`);
 
       setTasks((tasks) => tasks.filter((item) => item.id !== id));
-      setLoading(false);
     } catch (error) {
       console.error("Ошибка удаления задачи:", error);
+    } finally {
+      setLoading(false);
     }
   };
   const switchIsDone = async (id) => {
     setLoading(true);
     try {
-      await axios.patch(
-        `https://todo-redev.herokuapp.com/api/todos/${id}/isCompleted`,
-        { isCompleted: !task.isCompleted },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      await api.patch(`/todos/${id}/isCompleted`, {
+        isCompleted: !task.isCompleted,
+      });
 
       setTasks((tasks) =>
         tasks.map((item) =>
           item.id === id ? { ...item, isCompleted: !item.isCompleted } : item,
         ),
       );
-      setLoading(false);
     } catch (error) {
       console.error("Ошибка при обновлении статуса:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,23 +46,16 @@ const Task = ({ task, setTasks }) => {
       setLoading(true);
       try {
         console.log("id:", task.id);
-        await axios.patch(
-          `https://todo-redev.herokuapp.com/api/todos/${task.id}`,
-          { title: newTitle },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        await api.patch(`/todos/${task.id}`, { title: newTitle });
         setTasks((tasks) =>
           tasks.map((item) =>
             item.id === task.id ? { ...item, title: newTitle } : item,
           ),
         );
-        setLoading(false);
       } catch (error) {
         console.error("Ошибка при обновлении названия:", error);
+      } finally {
+        setLoading(false);
       }
     }
     setIsEditing(false);
