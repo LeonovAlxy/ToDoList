@@ -3,7 +3,6 @@ import TaskEdit from "./TaskEdit";
 import api from "../../api";
 
 const Task = ({ task, setTasks }) => {
-  const token = localStorage.getItem("token");
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleDeleteClick = async (id) => {
@@ -89,7 +88,7 @@ const Task = ({ task, setTasks }) => {
           <button onClick={() => handleDeleteClick(task.id)}>delete</button>
         </>
       ) : (
-        <span class="loader"></span>
+        <span className="loader"></span>
       )}
     </div>
   );

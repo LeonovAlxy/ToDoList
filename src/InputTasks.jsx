@@ -1,12 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 const InputTask = ({ setTasks }) => {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("token");
   const handleChange = (e) => {
     setText(e.target.value);
     setError("");
@@ -20,23 +19,16 @@ const InputTask = ({ setTasks }) => {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        "https://todo-redev.herokuapp.com/api/todos",
-        { title: text },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await api.post("/todos", { title: text });
       const newTask = response.data;
       setTasks((prevTasks) => [...prevTasks, newTask]);
       setText("");
       setError("");
-      setLoading(false);
     } catch (error) {
       setError("Ошибка при добавлении задачи");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +57,7 @@ const InputTask = ({ setTasks }) => {
         {!loading ? (
           <button onClick={handleClick}>Add Task</button>
         ) : (
-          <span class="loader"></span>
+          <span className="loader"></span>
         )}
       </div>
       {error && <div className="error">{error}</div>}

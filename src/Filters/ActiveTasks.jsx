@@ -29,7 +29,7 @@ const ActiveCounter = ({ tasks, setTasks }) => {
           Remove fulfilled tasks
         </button>
       ) : (
-        <span class="loader"></span>
+        <span className="loader"></span>
       )}
     </div>
   );

@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
 const Registration = ({ setToken }) => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,23 +16,25 @@ const Registration = ({ setToken }) => {
     setLoading(true);
     try {
       const regResponse = await axios.post(
-        "https://todo-redev.herokuapp.com/api/users/register",
+        import.meta.env.VITE_API_URL_REGISTER,
         { ...data, age: Number(data.age) },
       );
 
       if (regResponse.status === 200) {
         let loginResponse;
         try {
-          loginResponse = await axios.post(
-            "https://todo-redev.herokuapp.com/api/auth/login",
-            { email: data.email, password: data.password },
-          );
+          loginResponse = await axios.post(import.meta.env.VITE_API_URL_LOGIN, {
+            email: data.email,
+            password: data.password,
+          });
         } catch (loginError) {
           alert(
             "Логин не удался: " +
               (loginError.response?.data?.message || loginError.message),
           );
           return;
+        } finally {
+          setLoading(false);
         }
 
         if (loginResponse.status === 200) {
@@ -38,6 +43,7 @@ const Registration = ({ setToken }) => {
           setLoading(false);
           alert("Успешно вошли в систему");
           reset();
+          navigate("/");
           console.log(loginResponse.data.token);
         }
       }
@@ -136,8 +142,8 @@ const Registration = ({ setToken }) => {
           <div className="FormError">
             {errors?.age && <p>{errors?.age?.message}</p>}
           </div>
-          {loading && <span class="loader"></span>}
-          <input type="submit" disabled={!isValid} />
+          {loading && <span className="loader"></span>}
+          <input type="submit" disabled={!isValid} value={"Register"} />
         </form>
       </div>
     </>

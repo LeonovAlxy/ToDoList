@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 const Login = ({ setToken }) => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,7 +15,7 @@ const Login = ({ setToken }) => {
     setLoading(true);
     try {
       const loginResponse = await axios.post(
-        "https://todo-redev.herokuapp.com/api/auth/login",
+        import.meta.env.VITE_API_URL_LOGIN,
         data,
       );
       if (loginResponse.status === 200) {
@@ -21,7 +23,7 @@ const Login = ({ setToken }) => {
         localStorage.setItem("token", loginResponse.data.token);
         alert("Успешно вошли в систему");
         reset();
-        setLoading(false);
+        navigate("/");
         console.log(loginResponse.data.token);
       }
     } catch (loginError) {
@@ -30,14 +32,15 @@ const Login = ({ setToken }) => {
           (loginError.response?.data?.message || loginError.message),
       );
       return;
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <div className="AuthForm">
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
-          {" "}
-          email:{" "}
+          email:
           <input
             type="email"
             placeholder="example@gmail.com"
@@ -51,8 +54,7 @@ const Login = ({ setToken }) => {
         </div>
 
         <label>
-          {" "}
-          password:{" "}
+          password:
           <input
             type="password"
             placeholder="password"
@@ -74,8 +76,8 @@ const Login = ({ setToken }) => {
         <div className="FormError">
           {errors?.password && <p>{errors?.password?.message}</p>}
         </div>
-        {loading && <span class="loader"></span>}
-        <input type="submit" disabled={!isValid} />
+        {loading && <span className="loader"></span>}
+        <input type="submit" disabled={!isValid} value={"Login"} />
       </form>
     </div>
   );

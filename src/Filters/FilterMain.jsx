@@ -42,7 +42,7 @@ const Filter = ({ setTasks, getAllTasks }) => {
           <button onClick={() => getDoneTasks()}>Done</button>
         </>
       ) : (
-        <span class="loader"></span>
+        <span className="loader"></span>
       )}
     </div>
   );
