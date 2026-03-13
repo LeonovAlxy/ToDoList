@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TaskEdit from "./TaskEdit";
-import api from "../../api";
+import api from "../../../api";
 
 const Task = ({ task, setTasks }) => {
   const [isEditing, setIsEditing] = useState(false);

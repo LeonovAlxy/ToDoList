@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import InputTask from "./InputTasks";
+import InputTask from "../components/InputTasks";
 import ToDoList from "./TasksList/TodoList";
 import FilterMain from "./Filters/FilterMain";
 import ActiveTasks from "./Filters/ActiveTasks";
-import api from "../api";
+import api from "../../api";
 
 function ToDoListMain() {
   const [tasks, setTasks] = useState([]);
@@ -11,7 +11,6 @@ function ToDoListMain() {
   const getAllTasks = async () => {
     try {
       const responseAllTasks = await api.get("/todos");
-      console.log(responseAllTasks.data);
       setTasks(responseAllTasks.data);
       setLoading(true);
     } catch (error) {
@@ -22,7 +21,6 @@ function ToDoListMain() {
   };
   useEffect(() => {
     getAllTasks();
-    console.log(tasks);
   }, []);
   return (
     <>

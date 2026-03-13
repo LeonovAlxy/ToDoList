@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api";
+import api from "../../api";
 
 const InputTask = ({ setTasks }) => {
   const [text, setText] = useState("");

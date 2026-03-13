@@ -1,19 +1,14 @@
-import axios from "axios";
 import { useState } from "react";
+import api from "../../../api";
 const ActiveCounter = ({ tasks, setTasks }) => {
   const [loading, setLoading] = useState(false);
   const activeTasks = tasks.filter((item) => !item.isCompleted);
-  const token = localStorage.getItem("token");
   const completedTasks = tasks.filter((item) => item.isCompleted);
   const deleteCompletedTasks = async () => {
     setLoading(true);
     try {
       completedTasks.forEach((task) => {
-        axios.delete(`https://todo-redev.herokuapp.com/api/todos/${task.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        api.delete(`/todos/${task.id}`);
       });
       setTasks(activeTasks);
       setLoading(false);

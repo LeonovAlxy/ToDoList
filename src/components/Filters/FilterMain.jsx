@@ -1,16 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
+import api from "../../../api";
 const Filter = ({ setTasks, getAllTasks }) => {
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("token");
   const getDoneTasks = async () => {
     setLoading(true);
     try {
-      const responseAllTasks = await axios.get(
-        "https://todo-redev.herokuapp.com/api/todos?isCompleted=true",
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      const responseAllTasks = await api.get("/todos?isCompleted=true");
       console.log(responseAllTasks.data);
       setLoading(false);
       setTasks(responseAllTasks.data);
@@ -21,10 +17,7 @@ const Filter = ({ setTasks, getAllTasks }) => {
   const getActiveTasks = async () => {
     setLoading(true);
     try {
-      const responseAllTasks = await axios.get(
-        "https://todo-redev.herokuapp.com/api/todos?isCompleted=false",
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      const responseAllTasks = await api.get("/todos?isCompleted=false");
       console.log(responseAllTasks.data);
       setLoading(false);
       setTasks(responseAllTasks.data);
