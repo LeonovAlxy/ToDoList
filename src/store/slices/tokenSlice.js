@@ -20,7 +20,7 @@ const tokenSlice = createSlice({
   },
 });
 
-export const { add: change, zero } = tokenSlice.actions;
+export const { add, zero } = tokenSlice.actions;
 
 export const { selectToken } = tokenSlice.selectors;
 
