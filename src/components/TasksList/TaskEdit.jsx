@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from "react";
+import { addErrors } from "../../store/slices/tasksSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const TaskEdit = ({ initialTitle, onSave, onCancel }) => {
   const [editTitle, setEditTitle] = useState(initialTitle);
-  const [error, setError] = useState("");
+  const { errors } = useSelector((store) => store.tasks);
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -13,15 +16,15 @@ const TaskEdit = ({ initialTitle, onSave, onCancel }) => {
 
   const handleChange = (e) => {
     setEditTitle(e.target.value);
-    setError("");
+    dispatch(addErrors(""));
   };
 
   const handleKeyDown = (e) => {
     if (editTitle.trim() === "") {
-      setError("Не может быть пустым");
+      dispatch(addErrors("Не может быть пустым"));
     } else if (e.key === "Enter") {
       onSave(editTitle.trim());
-      setError("");
+      dispatch(addErrors(""));
     } else if (e.key === "Escape") {
       onCancel();
     }
@@ -38,13 +41,13 @@ const TaskEdit = ({ initialTitle, onSave, onCancel }) => {
         ref={inputRef}
         type="text"
         value={editTitle}
-        placeholder={error ? error : ""}
+        placeholder={errors ? errors : ""}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onBlur={handleBlur}
         style={{
-          borderColor: error ? "red" : undefined,
-          color: error ? "red" : "inherit",
+          borderColor: errors ? "red" : undefined,
+          color: errors ? "red" : "inherit",
         }}
       />
     </>

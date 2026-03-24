@@ -1,28 +1,25 @@
-import { useState } from "react";
-import api from "../../../api";
-const ActiveCounter = ({ tasks, setTasks }) => {
-  const [loading, setLoading] = useState(false);
+import { deleteCompletedTasks } from "../../store/slices/tasksSlice";
+
+import { useSelector, useDispatch } from "react-redux";
+
+const ActiveCounter = () => {
+  const { loading, tasks } = useSelector((store) => store.tasks);
+  const dispatch = useDispatch();
+
   const activeTasks = tasks.filter((item) => !item.isCompleted);
   const completedTasks = tasks.filter((item) => item.isCompleted);
-  const deleteCompletedTasks = async () => {
-    setLoading(true);
-    try {
-      completedTasks.forEach((task) => {
-        api.delete(`/todos/${task.id}`);
-      });
-      setTasks(activeTasks);
-      setLoading(false);
-    } catch (error) {
-      console.error("Ошибка удаления Complited tasks:", error);
+
+  const handleDeleteCompleted = () => {
+    if (completedTasks.length > 0) {
+      dispatch(deleteCompletedTasks());
     }
   };
+
   return (
     <div className="ActiveCounter">
       <p>Active: {activeTasks.length}</p>
       {!loading ? (
-        <button onClick={() => deleteCompletedTasks()}>
-          Remove fulfilled tasks
-        </button>
+        <button onClick={handleDeleteCompleted}>Remove fulfilled tasks</button>
       ) : (
         <span className="loader"></span>
       )}

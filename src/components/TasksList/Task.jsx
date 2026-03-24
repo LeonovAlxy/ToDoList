@@ -1,40 +1,16 @@
 import { useState } from "react";
 import TaskEdit from "./TaskEdit";
-import api from "../../../api";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  deleteTask,
+  switchIsDone,
+  updateTaskName,
+} from "../../store/slices/tasksSlice";
 
-const Task = ({ task, setTasks }) => {
+const Task = ({ task }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const handleDeleteClick = async (id) => {
-    setLoading(true);
-    try {
-      await api.delete(`/todos/${id}`);
-
-      setTasks((tasks) => tasks.filter((item) => item.id !== id));
-    } catch (error) {
-      console.error("Ошибка удаления задачи:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const switchIsDone = async (id) => {
-    setLoading(true);
-    try {
-      await api.patch(`/todos/${id}/isCompleted`, {
-        isCompleted: !task.isCompleted,
-      });
-
-      setTasks((tasks) =>
-        tasks.map((item) =>
-          item.id === id ? { ...item, isCompleted: !item.isCompleted } : item,
-        ),
-      );
-    } catch (error) {
-      console.error("Ошибка при обновлении статуса:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { loading } = useSelector((store) => store.tasks);
+  const dispatch = useDispatch();
 
   const handleStartEdit = () => {
     setIsEditing(true);
@@ -42,20 +18,7 @@ const Task = ({ task, setTasks }) => {
 
   const handleSaveEdit = async (newTitle) => {
     if (newTitle !== "") {
-      setLoading(true);
-      try {
-        console.log("id:", task.id);
-        await api.patch(`/todos/${task.id}`, { title: newTitle });
-        setTasks((tasks) =>
-          tasks.map((item) =>
-            item.id === task.id ? { ...item, title: newTitle } : item,
-          ),
-        );
-      } catch (error) {
-        console.error("Ошибка при обновлении названия:", error);
-      } finally {
-        setLoading(false);
-      }
+      dispatch(updateTaskName({ id: task.id, newTitle }));
     }
     setIsEditing(false);
   };
@@ -71,7 +34,7 @@ const Task = ({ task, setTasks }) => {
           <input
             type="checkbox"
             checked={task.isCompleted}
-            onChange={() => switchIsDone(task.id)}
+            onChange={() => dispatch(switchIsDone(task.id))}
           />
           {isEditing ? (
             <TaskEdit
@@ -85,7 +48,7 @@ const Task = ({ task, setTasks }) => {
               <button onClick={handleStartEdit}>change</button>
             </>
           )}
-          <button onClick={() => handleDeleteClick(task.id)}>delete</button>
+          <button onClick={() => dispatch(deleteTask(task.id))}>delete</button>
         </>
       ) : (
         <span className="loader"></span>

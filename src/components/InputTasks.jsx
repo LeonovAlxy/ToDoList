@@ -1,35 +1,25 @@
-import { useState } from "react";
-import api from "../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { addInputTask } from "../store/slices/tasksSlice";
+import { addInputText, addErrors } from "../store/slices/tasksSlice";
 
-const InputTask = ({ setTasks }) => {
-  const [text, setText] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+const InputTask = () => {
+  const { errors, loading, inputText } = useSelector((store) => store.tasks);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    setText(e.target.value);
-    setError("");
+    dispatch(addInputText(e.target.value));
   };
 
   const handleAddTask = async () => {
-    if (text.trim() === "") {
-      setError("Название не может быть пустым или состоять только из пробелов");
+    if (inputText.trim() === "") {
+      dispatch(
+        addErrors(
+          "Название не может быть пустым или состоять только из пробелов",
+        ),
+      );
       return;
     }
-
-    try {
-      setLoading(true);
-      const response = await api.post("/todos", { title: text });
-      const newTask = response.data;
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-      setText("");
-      setError("");
-    } catch (error) {
-      setError("Ошибка при добавлении задачи");
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    dispatch(addInputTask(inputText));
   };
 
   const handleKeyDown = (e) => {
@@ -46,12 +36,12 @@ const InputTask = ({ setTasks }) => {
     <>
       <div className="InputTask">
         <input
-          value={text}
+          value={inputText}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder="Create task"
           style={{
-            borderColor: error ? "red" : undefined,
+            borderColor: errors ? "red" : undefined,
           }}
         />
         {!loading ? (
@@ -60,7 +50,7 @@ const InputTask = ({ setTasks }) => {
           <span className="loader"></span>
         )}
       </div>
-      {error && <div className="error">{error}</div>}
+      {errors && <div className="error">{errors}</div>}
     </>
   );
 };

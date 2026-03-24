@@ -1,38 +1,26 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import InputTask from "../components/InputTasks";
 import ToDoList from "./TasksList/TodoList";
 import FilterMain from "./Filters/FilterMain";
 import ActiveTasks from "./Filters/ActiveTasks";
-import api from "../../api";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getTasks } from "../store/slices/tasksSlice";
 
 function ToDoListMain() {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const getAllTasks = async () => {
-    try {
-      const responseAllTasks = await api.get("/todos");
-      setTasks(responseAllTasks.data);
-      setLoading(true);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { loading } = useSelector((store) => store.tasks);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getAllTasks();
+    dispatch(getTasks());
   }, []);
   return (
     <>
-      <InputTask setTasks={setTasks} />
-      {loading ? (
-        <span className="loader"></span>
-      ) : (
-        <ToDoList tasks={tasks} setTasks={setTasks} />
-      )}
+      <InputTask />
+      {loading ? <span className="loader"></span> : <ToDoList />}
 
-      <FilterMain getAllTasks={getAllTasks} setTasks={setTasks} />
-      <ActiveTasks tasks={tasks} setTasks={setTasks} />
+      <FilterMain />
+      <ActiveTasks />
     </>
   );
 }

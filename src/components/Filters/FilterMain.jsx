@@ -1,38 +1,21 @@
-import { useState } from "react";
-import api from "../../../api";
-const Filter = ({ setTasks, getAllTasks }) => {
-  const [loading, setLoading] = useState(false);
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getTasks,
+  getDoneTasks,
+  getActiveTasks,
+} from "../../store/slices/tasksSlice";
 
-  const getDoneTasks = async () => {
-    setLoading(true);
-    try {
-      const responseAllTasks = await api.get("/todos?isCompleted=true");
-      console.log(responseAllTasks.data);
-      setLoading(false);
-      setTasks(responseAllTasks.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getActiveTasks = async () => {
-    setLoading(true);
-    try {
-      const responseAllTasks = await api.get("/todos?isCompleted=false");
-      console.log(responseAllTasks.data);
-      setLoading(false);
-      setTasks(responseAllTasks.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const Filter = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((store) => store.tasks);
 
   return (
     <div className="FilterMain">
       {!loading ? (
         <>
-          <button onClick={() => getAllTasks()}>All</button>
-          <button onClick={() => getActiveTasks()}>Active</button>
-          <button onClick={() => getDoneTasks()}>Done</button>
+          <button onClick={() => dispatch(getTasks())}>All</button>
+          <button onClick={() => dispatch(getActiveTasks())}>Active</button>
+          <button onClick={() => dispatch(getDoneTasks())}>Done</button>
         </>
       ) : (
         <span className="loader"></span>
