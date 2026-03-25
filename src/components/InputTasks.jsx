@@ -1,6 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
-import { addInputTask } from "../store/slices/tasksSlice";
-import { addInputText, addErrors } from "../store/slices/tasksSlice";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addInputTask } from '../store/slices/tasksSlice';
+
+import { addInputText, addErrors } from '../store/slices/tasksSlice';
 
 const InputTask = () => {
   const { errors, loading, inputText } = useSelector((store) => store.tasks);
@@ -11,19 +13,16 @@ const InputTask = () => {
   };
 
   const handleAddTask = async () => {
-    if (inputText.trim() === "") {
-      dispatch(
-        addErrors(
-          "Название не может быть пустым или состоять только из пробелов",
-        ),
-      );
+    if (inputText.trim() === '') {
+      dispatch(addErrors('Название не может быть пустым или состоять только из пробелов'));
+
       return;
     }
     dispatch(addInputTask(inputText));
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleAddTask();
     }
   };
@@ -41,7 +40,7 @@ const InputTask = () => {
           onKeyDown={handleKeyDown}
           placeholder="Create task"
           style={{
-            borderColor: errors ? "red" : undefined,
+            borderColor: errors ? 'red' : undefined,
           }}
         />
         {!loading ? (

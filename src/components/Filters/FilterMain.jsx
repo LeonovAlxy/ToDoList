@@ -1,9 +1,6 @@
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getTasks,
-  getDoneTasks,
-  getActiveTasks,
-} from "../../store/slices/tasksSlice";
+import { useSelector, useDispatch } from 'react-redux';
+
+import { getTasks, getDoneTasks, getActiveTasks } from '../../store/slices/tasksSlice';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -23,4 +20,5 @@ const Filter = () => {
     </div>
   );
 };
+
 export default Filter;

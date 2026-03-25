@@ -1,6 +1,8 @@
-import Task from "./Task";
-import Sort from "../Sort/Sort";
-import { useSelector } from "react-redux";
+import Task from './Task';
+
+import Sort from '../Sort/Sort';
+
+import { useSelector } from 'react-redux';
 
 const ToDoList = () => {
   const { tasks } = useSelector((store) => store.tasks);

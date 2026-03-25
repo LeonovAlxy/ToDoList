@@ -1,123 +1,124 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../../api";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getTasks = createAsyncThunk(
-  "tasks/getTasks",
-  async (_, { rejectWithValue }) => {
-    try {
-      const responseAllTasks = await api.get("/todos");
-      return responseAllTasks.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  },
-);
+import api from '../../../api';
+
+export const getTasks = createAsyncThunk('tasks/getTasks', async (_, { rejectWithValue }) => {
+  try {
+    const responseAllTasks = await api.get('/todos');
+
+    return responseAllTasks.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
 
 export const getDoneTasks = createAsyncThunk(
-  "tasks/getDoneTasks",
+  'tasks/getDoneTasks',
   async (_, { rejectWithValue }) => {
     try {
-      const responseAllTasks = await api.get("/todos?isCompleted=true");
+      const responseAllTasks = await api.get('/todos?isCompleted=true');
+
       return responseAllTasks.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  },
+  }
 );
 
 export const getActiveTasks = createAsyncThunk(
-  "tasks/getActiveTasks",
+  'tasks/getActiveTasks',
   async (_, { rejectWithValue }) => {
     try {
-      const responseAllTasks = await api.get("/todos?isCompleted=false");
+      const responseAllTasks = await api.get('/todos?isCompleted=false');
+
       return responseAllTasks.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  },
+  }
 );
 
-export const deleteTask = createAsyncThunk(
-  "tasks/deleteTask",
-  async (id, { rejectWithValue }) => {
-    try {
-      await api.delete(`/todos/${id}`);
-      return id;
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  },
-);
+export const deleteTask = createAsyncThunk('tasks/deleteTask', async (id, { rejectWithValue }) => {
+  try {
+    await api.delete(`/todos/${id}`);
+
+    return id;
+  } catch (error) {
+    console.error(error);
+
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
 
 export const addInputTask = createAsyncThunk(
-  "tasks/addInputTask",
+  'tasks/addInputTask',
   async (inputText, { rejectWithValue }) => {
     try {
-      const response = await api.post("/todos", { title: inputText });
+      const response = await api.post('/todos', { title: inputText });
+
       return response.data;
     } catch (error) {
       console.error(error);
+
       return rejectWithValue(error.response?.data || error.message);
     }
-  },
+  }
 );
 
 export const switchIsDone = createAsyncThunk(
-  "tasks/switchIsDone",
+  'tasks/switchIsDone',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await api.patch(`/todos/${id}/isCompleted`);
-      console.log(response.data);
-      return response.data;
+      await api.patch(`/todos/${id}/isCompleted`);
+
+      return { id };
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  },
+  }
 );
 
 export const updateTaskName = createAsyncThunk(
-  "tasks/updateTaskName",
+  'tasks/updateTaskName',
   async ({ id, newTitle }, { rejectWithValue }) => {
     try {
       await api.patch(`/todos/${id}`, { title: newTitle });
+
       return { id, newTitle };
     } catch (error) {
-      console.error("Ошибка при обновлении названия:", error);
+      console.error('Ошибка при обновлении названия:', error);
+
       return rejectWithValue(error.response?.data || error.message);
     }
-  },
+  }
 );
 
 export const deleteCompletedTasks = createAsyncThunk(
-  "tasks/deleteCompletedTasks",
+  'tasks/deleteCompletedTasks',
   async (_, { getState, rejectWithValue }) => {
     try {
       const store = getState();
-      const completedTasks = store.tasks.tasks.filter(
-        (item) => item.isCompleted === true,
-      );
+      const completedTasks = store.tasks.tasks.filter((item) => item.isCompleted === true);
       if (completedTasks.length === 0) {
         return;
       }
-      const deletePromises = completedTasks.map((task) =>
-        api.delete(`/todos/${task.id}`),
-      );
+      const deletePromises = completedTasks.map((task) => api.delete(`/todos/${task.id}`));
       await Promise.all(deletePromises);
+
       return;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  },
+  }
 );
 
 const tasksSlice = createSlice({
-  name: "tasks",
+  name: 'tasks',
   initialState: {
     tasks: [],
     loading: false,
     errors: null,
-    inputText: "test",
+    inputText: 'test',
   },
   reducers: {
     addInputText(state, action) {
@@ -140,26 +141,22 @@ const tasksSlice = createSlice({
 
       .addCase(addInputTask.fulfilled, (state, action) => {
         state.tasks.push(action.payload);
-        state.inputText = "";
-        state.errors = "";
+        state.inputText = '';
+        state.errors = '';
         state.loading = false;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
-        const index = state.tasks.findIndex(
-          (item) => item.id === action.payload,
-        );
+        const index = state.tasks.findIndex((item) => item.id === action.payload);
         if (index !== -1) {
           state.tasks.splice(index, 1);
         }
         state.loading = false;
       })
       .addCase(switchIsDone.fulfilled, (state, action) => {
-        const updatedTask = action.payload;
-        const index = state.tasks.findIndex(
-          (item) => item.id === updatedTask.id,
-        );
-        if (index !== -1) {
-          state.tasks[index] = updatedTask;
+        const taskId = action.payload.id;
+        const task = state.tasks.find((t) => t.id === taskId);
+        if (task) {
+          task.isCompleted = !task.isCompleted;
         }
         state.loading = false;
       })
@@ -184,18 +181,17 @@ const tasksSlice = createSlice({
       })
 
       .addMatcher(
-        (action) => action.type.endsWith("/rejected"),
+        (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.loading = false;
-          state.errors =
-            action.payload || action.error?.message || "Произошла ошибка";
-        },
+          state.errors = action.payload || action.error?.message || 'Произошла ошибка';
+        }
       )
       .addMatcher(
-        (action) => action.type.endsWith("/pending"),
+        (action) => action.type.endsWith('/pending'),
         (state) => {
           state.loading = true;
-        },
+        }
       );
   },
 

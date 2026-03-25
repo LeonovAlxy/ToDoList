@@ -1,6 +1,6 @@
-import { deleteCompletedTasks } from "../../store/slices/tasksSlice";
+import { deleteCompletedTasks } from '../../store/slices/tasksSlice';
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 
 const ActiveCounter = () => {
   const { loading, tasks } = useSelector((store) => store.tasks);
@@ -26,4 +26,5 @@ const ActiveCounter = () => {
     </div>
   );
 };
+
 export default ActiveCounter;

@@ -1,7 +1,7 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate } from 'react-router-dom';
 
 function PrivateRoute() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   return token ? <Outlet /> : <Navigate to="/register" />;
 }

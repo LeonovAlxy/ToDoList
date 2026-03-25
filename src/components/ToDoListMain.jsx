@@ -1,11 +1,16 @@
-import { useEffect } from "react";
-import InputTask from "../components/InputTasks";
-import ToDoList from "./TasksList/TodoList";
-import FilterMain from "./Filters/FilterMain";
-import ActiveTasks from "./Filters/ActiveTasks";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
 
-import { getTasks } from "../store/slices/tasksSlice";
+import InputTask from '../components/InputTasks';
+
+import ToDoList from './TasksList/TodoList';
+
+import FilterMain from './Filters/FilterMain';
+
+import ActiveTasks from './Filters/ActiveTasks';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getTasks } from '../store/slices/tasksSlice';
 
 function ToDoListMain() {
   const { loading } = useSelector((store) => store.tasks);
@@ -14,6 +19,7 @@ function ToDoListMain() {
   useEffect(() => {
     dispatch(getTasks());
   }, []);
+
   return (
     <>
       <InputTask />
@@ -24,4 +30,5 @@ function ToDoListMain() {
     </>
   );
 }
+
 export default ToDoListMain;
